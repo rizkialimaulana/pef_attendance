@@ -19,52 +19,51 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Attendance History'),
-        backgroundColor: Colors.yellow[50],
+        backgroundColor: Colors.yellow[600],
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          color: Colors.yellow[50],
-          child: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                margin:
-                    EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Overview",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ),
-                    SizedBox(height: 20),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          _buildStatCard("Total Lateness",
-                              totalLateness.toString() + " hours", Colors.red),
-                          SizedBox(width: 10),
-                          _buildStatCard("Total Absent", totalAbsent.toString(),
-                              Colors.orange),
-                          SizedBox(width: 10),
-                          _buildStatCard("Total Attendance",
-                              totalAttendance.toString(), Colors.green),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+      body: Container(
+        color: Colors.yellow[600],
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
               ),
-              Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Overview",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
+                  SizedBox(height: 20),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        _buildStatCard("Total Lateness",
+                            totalLateness.toString() + " hours", Colors.red),
+                        SizedBox(width: 10),
+                        _buildStatCard("Total Absent", totalAbsent.toString(),
+                            Colors.orange),
+                        SizedBox(width: 10),
+                        _buildStatCard("Total Attendance",
+                            totalAttendance.toString(), Colors.green),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(
                 width: double.infinity,
                 margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 padding: EdgeInsets.all(10),
@@ -73,7 +72,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       "History Attendance",
@@ -81,8 +79,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: 10),
-                    SizedBox(
-                      height: 300,
+                    Expanded(
                       child: BarChart(
                         BarChartData(
                           gridData: FlGridData(show: false),
@@ -251,8 +248,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -261,7 +258,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget _buildStatCard(String title, String value, Color color) {
     return Card(
       elevation: 4,
-      // color: color.withOpacity(0.1),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.all(20.0),

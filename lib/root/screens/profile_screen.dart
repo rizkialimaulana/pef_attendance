@@ -11,13 +11,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Profile'),
-      //   backgroundColor: Colors.orangeAccent,
-      // ),
       body: Container(
         padding: EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 50),
-        color: Colors.yellow[50],
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFFFE57F), Color(0xFFFFCA28)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -31,55 +33,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(height: 20),
             Text(
               "Nama Pengguna",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
             SizedBox(height: 10),
             Text(
               "user@example.com",
-              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+              style: TextStyle(fontSize: 16, color: Colors.black),
             ),
             SizedBox(height: 20),
-            Divider(),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Icon(Icons.person),
-                SizedBox(width: 10),
-                Text(
-                  "NIK",
-                  style: TextStyle(fontSize: 18),
-                ),
-                SizedBox(width: 20),
-                Expanded(
-                  child: Text(
-                    "1234567890",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                    textAlign: TextAlign.end,
-                  ),
-                ),
-              ],
+            Divider(
+              color: Colors.black54,
             ),
             SizedBox(height: 20),
-            Row(
-              children: [
-                Icon(Icons.phone),
-                SizedBox(width: 10),
-                Text(
-                  "Phone",
-                  style: TextStyle(fontSize: 18),
-                ),
-                SizedBox(width: 20),
-                Expanded(
-                  child: Text(
-                    "+62 8123456789",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                    textAlign: TextAlign.end,
-                  ),
-                ),
-              ],
-            ),
+            _buildInfoRow(Icons.person, "NIK", "1234567890"),
             SizedBox(height: 20),
-            SizedBox(height: 30),
+            _buildInfoRow(Icons.work, "Jabatan", "Manager"),
+            SizedBox(height: 40),
             ElevatedButton.icon(
               onPressed: () {
                 // Aksi saat tombol ditekan
@@ -87,13 +59,56 @@ class _ProfileScreenState extends State<ProfileScreen> {
               icon: Icon(Icons.settings),
               label: Text("Settings"),
               style: ElevatedButton.styleFrom(
-                // primary: Colors.orangeAccent,
+                backgroundColor: Colors.white,
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                 textStyle: TextStyle(fontSize: 18),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                shadowColor: Colors.black54,
+                elevation: 10,
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(IconData icon, String title, String value) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10,
+            offset: Offset(0, 5),
+          ),
+        ],
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.black54),
+          SizedBox(width: 10),
+          Text(
+            title,
+            style: TextStyle(fontSize: 18, color: Colors.black54),
+          ),
+          SizedBox(width: 20),
+          Expanded(
+            child: Text(
+              value,
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black),
+              textAlign: TextAlign.end,
+            ),
+          ),
+        ],
       ),
     );
   }

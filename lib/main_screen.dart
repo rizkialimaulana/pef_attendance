@@ -27,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: const Color.fromARGB(255, 255, 253, 231),
+        backgroundColor: const Color.fromARGB(255, 253, 216, 53),
         items: const <Widget>[
           Icon(Icons.home_outlined, size: 30),
           Icon(Icons.calendar_month_outlined, size: 30),
