@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.yellow[300],
+        color: Colors.yellow[50],
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,26 +155,42 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 10),
             Container(
-              color: Colors.white,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
               padding: EdgeInsets.all(20),
               margin: EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 children: <Widget>[
-                  Text(_currentDate),
-                  Spacer(),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: Colors.black,
+                  Flexible(
+                    flex: 2,
+                    child: Text(
+                      _currentDate,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                    child: Center(
-                      child: Text(
-                        _currentAddress,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                  ),
+                  Spacer(),
+                  Flexible(
+                    flex: 3,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      height: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.black,
+                      ),
+                      child: Center(
+                        child: Text(
+                          _currentAddress,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -190,7 +206,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: double.infinity,
                 margin: EdgeInsets.only(left: 20, right: 20, bottom: 30),
                 padding: EdgeInsets.all(10),
-                color: Colors.white,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 child: Column(
                   children: [
                     Text(
@@ -205,25 +224,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           gridData: FlGridData(show: false),
                           alignment: BarChartAlignment.spaceAround,
                           maxY: 20,
-                          // barTouchData: BarTouchData(
-                          //   touchTooltipData: BarTouchTooltipData(
-                          //     tooltipBgColor: Colors.blueAccent,
-                          //   ),
-                          //   touchCallback: (BarTouchResponse touchResponse) {
-                          //     setState(() {
-                          //       if (touchResponse.spot != null &&
-                          //           touchResponse.touchInput is FlPanUpdate &&
-                          //           touchResponse.touchInput.localPosition.dy >
-                          //               0) {
-                          //         touchedIndex =
-                          //             touchResponse.spot!.touchedBarGroupIndex;
-                          //       } else {
-                          //         touchedIndex = -1;
-                          //       }
-                          //     });
-                          //   },
-                          //   handleBuiltInTouches: true,
-                          // ),
                           titlesData: FlTitlesData(
                             bottomTitles: AxisTitles(
                               sideTitles: SideTitles(
