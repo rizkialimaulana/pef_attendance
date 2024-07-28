@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "844624332440",
+    "project_id": "pef-attendance",
+    "storage_bucket": "pef-attendance.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:844624332440:android:151cbdc871af0da7f6b2ed",
+        "android_client_info": {
+          "package_name": "com.pef_attendance.pef_attendance"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHBJvKXUfhFdhWGUg1of8XyF2pl5B-_0w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
