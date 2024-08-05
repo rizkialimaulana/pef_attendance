@@ -1,21 +1,40 @@
 {
   "project_info": {
-    "project_number": "844624332440",
-    "project_id": "pef-attendance",
-    "storage_bucket": "pef-attendance.appspot.com"
+    "project_number": "1035100738614",
+    "project_id": "premiere-attendance",
+    "storage_bucket": "premiere-attendance.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:844624332440:android:151cbdc871af0da7f6b2ed",
+        "mobilesdk_app_id": "1:1035100738614:android:bcb5486a6b4ce8ace5f497",
         "android_client_info": {
-          "package_name": "com.pef_attendance.pef_attendance"
+          "package_name": "com.pef_attendance.pef_attendance_system"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDHBJvKXUfhFdhWGUg1of8XyF2pl5B-_0w"
+          "current_key": "AIzaSyCnHaKJSSGF2dkoWaZyh3PBlUnhscoVXiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035100738614:android:db18082fbcbeccf1e5f497",
+        "android_client_info": {
+          "package_name": "com.premiere_attendance.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnHaKJSSGF2dkoWaZyh3PBlUnhscoVXiw"
         }
       ],
       "services": {

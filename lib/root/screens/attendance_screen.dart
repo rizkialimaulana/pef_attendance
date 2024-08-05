@@ -3,6 +3,8 @@ import 'package:camera/camera.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({super.key});
@@ -19,12 +21,37 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   String _currentAddress = 'Loading...';
   bool isWithinWorkHours = true;
 
+  // Firestore and FirebaseAuth instances
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  // User data
+  String nik = '';
+  String name = '';
+
   @override
   void initState() {
     super.initState();
     _initializeCamera();
     _getCurrentLocation();
     _checkWorkHours();
+    _getUserData();
+  }
+
+  Future<void> _getUserData() async {
+    // Get the current user
+    User? user = _auth.currentUser;
+    if (user != null) {
+      // Retrieve user data from Firestore using the UID
+      DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(user.uid).get();
+      if (userDoc.exists) {
+        setState(() {
+          nik = userDoc['nik'] ?? 'Unknown NIK';
+          name = userDoc['name'] ?? 'Unknown Name';
+        });
+      }
+    }
   }
 
   void _getCurrentLocation() async {
@@ -63,7 +90,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     List<Placemark>? placemarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
 
-    if (placemarks != true && placemarks.isNotEmpty) {
+    if (placemarks.isNotEmpty) {
       Placemark place = placemarks[0];
       setState(() {
         _currentAddress = "${place.subLocality}, ${place.locality}";
@@ -98,27 +125,32 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     super.dispose();
   }
 
-  Future<void> _scanFace() async {
+  Future<void> _scanText() async {
     try {
       if (_initializeControllerFuture != null) {
         await _initializeControllerFuture;
         final image = await _cameraController.takePicture();
 
         final inputImage = InputImage.fromFilePath(image.path);
-        final faceDetector = GoogleMlKit.vision.faceDetector();
-        final List<Face> faces = await faceDetector.processImage(inputImage);
+        final textRecognizer = GoogleMlKit.vision.textRecognizer();
+        final RecognizedText recognizedText =
+            await textRecognizer.processImage(inputImage);
 
-        if (faces.isNotEmpty) {
+        // Process the recognized text
+        String extractedText = recognizedText.text;
+        print("Recognized text: $extractedText");
+
+        if (extractedText.isNotEmpty) {
           setState(() {
-            status = "Present";
+            status = "Text Detected";
           });
         } else {
           setState(() {
-            status = "Not Present";
+            status = "No Text Detected";
           });
         }
 
-        faceDetector.close();
+        textRecognizer.close();
       }
     } catch (e) {
       print(e);
@@ -135,8 +167,39 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     });
   }
 
-  void _submitAttendance() {
-    Navigator.of(context).pop(true);
+  Future<void> _submitAttendance() async {
+    // Collect all necessary data to store in Firestore
+    final String address = _currentAddress;
+    final String attendanceStatus = status;
+    final DateTime timestamp = DateTime.now();
+
+    // Check if status is "Text Detected" before submitting
+    if (attendanceStatus == "Text Detected") {
+      try {
+        await _firestore.collection('attendances').add({
+          'nik': nik,
+          'name': name,
+          'address': address,
+          'status': attendanceStatus,
+          'timestamp': timestamp,
+        });
+
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Attendance submitted successfully')),
+        );
+      } catch (e) {
+        print(e);
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to submit attendance')),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('No valid text detected for submission')),
+      );
+    }
   }
 
   @override
@@ -177,12 +240,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                   ),
                                   SizedBox(height: 20),
                                   ElevatedButton.icon(
-                                    onPressed: _scanFace,
+                                    onPressed: _scanText,
                                     icon: Icon(
                                       Icons.camera_alt,
                                       color: Colors.black,
                                     ),
-                                    label: Text('Scan Face'),
+                                    label: Text('Scan Text'),
                                     style: ElevatedButton.styleFrom(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 50, vertical: 15),
@@ -217,17 +280,17 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                   ),
                                   Divider(color: Colors.orangeAccent),
                                   SizedBox(height: 10),
-                                  _buildDetailRow("NIK", "1234567890"),
+                                  _buildDetailRow("NIK", nik),
                                   SizedBox(height: 20),
-                                  _buildDetailRow("Name", "John Doe"),
+                                  _buildDetailRow("Name", name),
                                   SizedBox(height: 20),
                                   _buildDetailRow("Location", _currentAddress),
                                   SizedBox(height: 20),
                                   _buildDetailRow("Status", status,
-                                      color: status == "Present"
+                                      color: status == "Text Detected"
                                           ? Colors.green
                                           : Colors.red),
-                                  if (status == "Present")
+                                  if (status == "Text Detected")
                                     Column(
                                       children: [
                                         SizedBox(height: 20),

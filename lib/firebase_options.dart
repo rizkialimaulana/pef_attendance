@@ -4,8 +4,6 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
 /// Example:
@@ -42,43 +40,47 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static FirebaseOptions web = FirebaseOptions(
-    apiKey: dotenv.env['FIREBASE_API_KEY'] ?? '',
-    appId: dotenv.env['FIREBASE_APP_ID'] ?? '',
-    messagingSenderId: dotenv.env['FIREBASE_MESSAGE_SENDER_ID'] ?? '',
-    projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
-    storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBFnJbo3lFm03rRAkzQ55WDZAcCTLSC5Qo',
+    appId: '1:1035100738614:web:7d8557aabdb2055ce5f497',
+    messagingSenderId: '1035100738614',
+    projectId: 'premiere-attendance',
+    authDomain: 'premiere-attendance.firebaseapp.com',
+    storageBucket: 'premiere-attendance.appspot.com',
   );
 
-  static FirebaseOptions android = FirebaseOptions(
-    apiKey: dotenv.env['FIREBASE_API_KEY'] ?? '',
-    appId: dotenv.env['FIREBASE_APP_ID'] ?? '',
-    messagingSenderId: dotenv.env['FIREBASE_MESSAGE_SENDER_ID'] ?? '',
-    projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
-    storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyCnHaKJSSGF2dkoWaZyh3PBlUnhscoVXiw',
+    appId: '1:1035100738614:android:db18082fbcbeccf1e5f497',
+    messagingSenderId: '1035100738614',
+    projectId: 'premiere-attendance',
+    storageBucket: 'premiere-attendance.appspot.com',
   );
 
-  static FirebaseOptions ios = FirebaseOptions(
-    apiKey: dotenv.env['FIREBASE_API_KEY'] ?? '',
-    appId: dotenv.env['FIREBASE_APP_ID'] ?? '',
-    messagingSenderId: dotenv.env['FIREBASE_MESSAGE_SENDER_ID'] ?? '',
-    projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
-    storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyBHqerQoIBoeTZ7pBxAgmQT9UdWxcxa_Gg',
+    appId: '1:1035100738614:ios:5c31312168a3065fe5f497',
+    messagingSenderId: '1035100738614',
+    projectId: 'premiere-attendance',
+    storageBucket: 'premiere-attendance.appspot.com',
+    iosBundleId: 'com.pefattendance.pefAttendanceSystem',
   );
 
-  static FirebaseOptions macos = FirebaseOptions(
-    apiKey: dotenv.env['FIREBASE_API_KEY'] ?? '',
-    appId: dotenv.env['FIREBASE_APP_ID'] ?? '',
-    messagingSenderId: dotenv.env['FIREBASE_MESSAGE_SENDER_ID'] ?? '',
-    projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
-    storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyBHqerQoIBoeTZ7pBxAgmQT9UdWxcxa_Gg',
+    appId: '1:1035100738614:ios:5c31312168a3065fe5f497',
+    messagingSenderId: '1035100738614',
+    projectId: 'premiere-attendance',
+    storageBucket: 'premiere-attendance.appspot.com',
+    iosBundleId: 'com.pefattendance.pefAttendanceSystem',
   );
 
-  static FirebaseOptions windows = FirebaseOptions(
-    apiKey: dotenv.env['FIREBASE_API_KEY'] ?? '',
-    appId: dotenv.env['FIREBASE_APP_ID'] ?? '',
-    messagingSenderId: dotenv.env['FIREBASE_MESSAGE_SENDER_ID'] ?? '',
-    projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
-    storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyBFnJbo3lFm03rRAkzQ55WDZAcCTLSC5Qo',
+    appId: '1:1035100738614:web:04fe8f530a58e3d9e5f497',
+    messagingSenderId: '1035100738614',
+    projectId: 'premiere-attendance',
+    authDomain: 'premiere-attendance.firebaseapp.com',
+    storageBucket: 'premiere-attendance.appspot.com',
   );
 }
