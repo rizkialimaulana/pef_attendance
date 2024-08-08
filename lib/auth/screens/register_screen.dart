@@ -25,7 +25,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final String password = _passwordController.text.trim();
 
     try {
-      // Create a new user with Firebase Authentication
+      // Log before Firebase Authentication
+      print("Registering user with NIK: $nik");
+
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
         email:
@@ -33,16 +35,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
         password: password,
       );
 
-      // Save additional user info in Firestore
+      // Log after Firebase Authentication
+      print("User registered with UID: ${userCredential.user?.uid}");
+
+      // Log before Firestore write
+      print("Saving user info to Firestore");
+
       await _firestore.collection('users').doc(userCredential.user?.uid).set({
         'nik': nik,
         'name': name,
         'position': position,
       });
 
-      // Navigate to the main screen or show success message
+      // Log after Firestore write
+      print("User info saved to Firestore");
+
       Navigator.pushReplacementNamed(context, '/main');
     } catch (e) {
+      print("Error occurred: $e");
+
       // Handle errors (e.g., show an alert dialog with the error message)
       showDialog(
         context: context,
@@ -150,6 +161,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   child: TextField(
                                     controller: _nikController,
+                                    keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
                                       icon: Icon(Icons.badge,
                                           color: Colors.orange),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:google_ml_kit/google_ml_kit.dart';
+// import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -125,37 +125,37 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     super.dispose();
   }
 
-  Future<void> _scanText() async {
-    try {
-      if (_initializeControllerFuture != null) {
-        await _initializeControllerFuture;
-        final image = await _cameraController.takePicture();
+  // Future<void> _scanText() async {
+  //   try {
+  //     if (_initializeControllerFuture != null) {
+  //       await _initializeControllerFuture;
+  //       final image = await _cameraController.takePicture();
 
-        final inputImage = InputImage.fromFilePath(image.path);
-        final textRecognizer = GoogleMlKit.vision.textRecognizer();
-        final RecognizedText recognizedText =
-            await textRecognizer.processImage(inputImage);
+  //       final inputImage = InputImage.fromFilePath(image.path);
+  //       final textRecognizer = GoogleMlKit.vision.textRecognizer();
+  //       final RecognizedText recognizedText =
+  //           await textRecognizer.processImage(inputImage);
 
-        // Process the recognized text
-        String extractedText = recognizedText.text;
-        print("Recognized text: $extractedText");
+  //       // Process the recognized text
+  //       String extractedText = recognizedText.text;
+  //       print("Recognized text: $extractedText");
 
-        if (extractedText.isNotEmpty) {
-          setState(() {
-            status = "Text Detected";
-          });
-        } else {
-          setState(() {
-            status = "No Text Detected";
-          });
-        }
+  //       if (extractedText.isNotEmpty) {
+  //         setState(() {
+  //           status = "Text Detected";
+  //         });
+  //       } else {
+  //         setState(() {
+  //           status = "No Text Detected";
+  //         });
+  //       }
 
-        textRecognizer.close();
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
+  //       textRecognizer.close();
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   void _checkWorkHours() {
     final now = DateTime.now();
@@ -239,24 +239,25 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                     ),
                                   ),
                                   SizedBox(height: 20),
-                                  ElevatedButton.icon(
-                                    onPressed: _scanText,
-                                    icon: Icon(
-                                      Icons.camera_alt,
-                                      color: Colors.black,
-                                    ),
-                                    label: Text('Scan Text'),
-                                    style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 50, vertical: 15),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      textStyle: TextStyle(
-                                          fontSize: 18, color: Colors.black),
-                                      backgroundColor: Colors.yellow[600],
-                                    ),
-                                  ),
+                                  // ElevatedButton.icon(
+                                  //   onPressed: _scanText,
+                                  //   // onPressed: _scanText,
+                                  //   icon: Icon(
+                                  //     Icons.camera_alt,
+                                  //     color: Colors.black,
+                                  //   ),
+                                  //   label: Text('Scan Text'),
+                                  //   style: ElevatedButton.styleFrom(
+                                  //     padding: EdgeInsets.symmetric(
+                                  //         horizontal: 50, vertical: 15),
+                                  //     shape: RoundedRectangleBorder(
+                                  //       borderRadius: BorderRadius.circular(10),
+                                  //     ),
+                                  //     textStyle: TextStyle(
+                                  //         fontSize: 18, color: Colors.black),
+                                  //     backgroundColor: Colors.yellow[600],
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),

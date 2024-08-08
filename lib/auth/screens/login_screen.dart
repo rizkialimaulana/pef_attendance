@@ -1,7 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _nikController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  String _errorMessage = '';
+  bool _isLoading = false;
+
+  Future<void> _login() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = '';
+    });
+
+    try {
+      final email = '${_nikController.text.trim()}@example.com';
+      await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: _passwordController.text.trim(),
+      );
+      Navigator.pushReplacementNamed(context, '/main');
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        _errorMessage = e.message ?? 'Login failed';
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _showForgotPasswordDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Forgot Password'),
+          content: Text('Harap hubungi admin jika anda lupa password.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +146,8 @@ class LoginScreen extends StatelessWidget {
                                     ),
                                   ),
                                   child: TextField(
+                                    controller: _nikController,
+                                    keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
                                       icon: Icon(Icons.person,
                                           color: Colors.orange),
@@ -109,6 +167,7 @@ class LoginScreen extends StatelessWidget {
                                     ),
                                   ),
                                   child: TextField(
+                                    controller: _passwordController,
                                     obscureText: true,
                                     decoration: InputDecoration(
                                       icon: Icon(Icons.lock,
@@ -122,11 +181,17 @@ class LoginScreen extends StatelessWidget {
                               ],
                             ),
                           ),
+                          if (_errorMessage.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Text(
+                                _errorMessage,
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
                           SizedBox(height: 40),
                           GestureDetector(
-                            onTap: () {
-                              // Handle forgot password
-                            },
+                            onTap: _showForgotPasswordDialog,
                             child: Text(
                               "Forgot Password?",
                               style: TextStyle(color: Colors.grey),
@@ -146,10 +211,7 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                             child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                    context, '/main');
-                              },
+                              onPressed: _isLoading ? null : _login,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.transparent,
                                 shadowColor: Colors.transparent,
@@ -158,13 +220,19 @@ class LoginScreen extends StatelessWidget {
                                 ),
                               ),
                               child: Center(
-                                child: Text(
-                                  "Login",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                child: _isLoading
+                                    ? CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                Colors.white),
+                                      )
+                                    : Text(
+                                        "Login",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                               ),
                             ),
                           ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -8,6 +10,32 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  String _userName = 'Nama Pengguna';
+  String _userNik = 'NIK';
+  String _userPosition = 'Jabatan';
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserData();
+  }
+
+  Future<void> _getUserData() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      String uid = user.uid;
+      DocumentSnapshot userDoc =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      if (userDoc.exists) {
+        setState(() {
+          _userName = userDoc['name'] ?? 'Nama Pengguna';
+          _userNik = userDoc['nik'] ?? 'NIK';
+          _userPosition = userDoc['position'] ?? 'Jabatan';
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,25 +60,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             SizedBox(height: 20),
             Text(
-              "Nama Pengguna",
+              _userName,
               style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.black),
             ),
             SizedBox(height: 10),
-            Text(
-              "user@example.com",
-              style: TextStyle(fontSize: 16, color: Colors.black),
-            ),
             SizedBox(height: 20),
             Divider(
               color: Colors.black54,
             ),
             SizedBox(height: 20),
-            _buildInfoRow(Icons.person, "NIK", "1234567890"),
+            _buildInfoRow(Icons.person, "NIK", _userNik),
             SizedBox(height: 20),
-            _buildInfoRow(Icons.work, "Jabatan", "Manager"),
+            _buildInfoRow(Icons.work, "Jabatan", _userPosition),
             SizedBox(height: 40),
             ElevatedButton.icon(
               onPressed: () {
